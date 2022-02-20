@@ -12,4 +12,9 @@ public class LicenceController {
     public String index() {
         return "Hello there! I'm running.";
     }
+	
+	@GetMapping("/hello")
+    public String hello() {
+        return "Hello there! I'm running.";
+    }
 }
