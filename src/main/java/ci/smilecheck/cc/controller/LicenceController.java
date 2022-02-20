@@ -14,7 +14,7 @@ public class LicenceController {
     }
 	
 	@GetMapping("/hello")
-    public String hello() {
+    public String hello2() {
         return "Hello there! I'm running.";
     }
 }
