@@ -54,7 +54,7 @@ public class CustomerBusiness {
 
 				
 				UUID licenceKey=UUID.randomUUID();
-				customer.setLicenceKey(licenceKey.toString());
+				customer.setLicenceKey(licenceKey);
 				
 				
 				
@@ -91,13 +91,13 @@ public Response<?> ActiveSmileCheck(String licenceKey){
 		    //do controle :
 		
 			Customer customer= new Customer();
-			customer.setLicenceKey(licenceKey);
+			customer.setLicenceKey(UUID.fromString(licenceKey));
 			
 			
 			
 			// check if username not existe -->
 			
-			if(customer.getLicenceKey()==null || customer.getLicenceKey().length()>36 ) {
+			if(customer.getLicenceKey()==null  ) {
 				throw new  BusinessBadRequest( ErrorMessage.ERROR_CUSTOMER_BAD_LICENCE);
 			}
 			
@@ -130,7 +130,7 @@ public Response<?> ActiveSmileCheck(String licenceKey){
 		catch(Exception e) {
 			
 			
-			throw new  BusinessBadRequest( ErrorMessage.ERROR_SERVEUR_500);
+			throw new  BusinessBadRequest(ErrorMessage.ERROR_SERVEUR_500);
 
 		}
 		

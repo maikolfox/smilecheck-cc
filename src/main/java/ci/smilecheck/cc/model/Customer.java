@@ -25,7 +25,7 @@ public class Customer {
 	private Long idCustomer;
 	
 	@Column(unique=true, length=100)
-	private String licenceKey;
+	private UUID licenceKey;
 	
 	@Column(unique=true, length=36)
 	private String customerName;
@@ -52,11 +52,11 @@ public class Customer {
 		this.idCustomer = idCustomer;
 	}
 
-	public String getLicenceKey() {
+	public UUID getLicenceKey() {
 		return licenceKey;
 	}
 
-	public void setLicenceKey(String licenceKey) {
+	public void setLicenceKey(UUID licenceKey) {
 		this.licenceKey = licenceKey;
 	}
 

@@ -1,6 +1,8 @@
 package ci.smilecheck.cc.repository;
 
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +17,5 @@ public interface CustomerRepository  extends JpaRepository<Customer, Long> {
 	
 	
 	Customer findByCustomerName(String customerName);
-	Customer findByLicenceKey(String licencKey);
+	Customer findByLicenceKey(UUID licencKey);
 }

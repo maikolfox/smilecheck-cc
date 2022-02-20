@@ -23,13 +23,8 @@ public class CustomerController {
 	@Autowired
 	private CustomerBusiness customerBusiness;
 	
-	@GetMapping("/getLicenceKey")
-    public UUID index() {
-		UUID lickey=UUID.randomUUID();
-        return lickey;
-    }
 	
-	
+
 	
 	@PostMapping("/customer")
 	public Response<?> createCustomer(@RequestBody Request<Customer> request) {
