@@ -8,10 +8,6 @@ public class LicenceController {
 
 	
 	
-	@GetMapping("/")
-    public String index() {
-        return "Hello there! I'm running.";
-    }
 	
 	@GetMapping("/hello")
     public String hello2() {
