@@ -1,16 +1,28 @@
 package ci.smilecheck.cc.business;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import ci.smilecheck.cc.helper.contrat.Request;
 import ci.smilecheck.cc.helper.contrat.Response;
+import ci.smilecheck.cc.helper.dto.CustomerDto;
 import ci.smilecheck.cc.helper.error.ErrorMessage;
 import ci.smilecheck.cc.helper.exceptionHandler.BusinessBadRequest;
+import ci.smilecheck.cc.helper.exceptionHandler.BusinessEntityNotFound;
 import ci.smilecheck.cc.model.Customer;
 import ci.smilecheck.cc.repository.CustomerRepository;
+
+
 
 @Service
 public class CustomerBusiness {
@@ -19,9 +31,66 @@ public class CustomerBusiness {
 	private CustomerRepository customerRepository;
 	
 	
+	// ALL CUSTOMER PAGINATION
+		public Response<Customer> getAllCustomerActif(Pageable pageable, int pageNo, int pageSize) {
+
+			pageable = PageRequest.of(pageNo, pageSize, Sort.by("idCustomer").ascending());
+			Page<Customer> datas = customerRepository.findAll(pageable);
+
+			List<Customer> listCustomer = datas.getContent();
+
+			ArrayList<Customer> aListCustomer= new ArrayList<Customer>();
+
+			Response<Customer> responseDto = new Response<Customer>(datas);
+			// a optimiser pour obtenir un array list sans faire une boucle
+			for(Customer custom : listCustomer) {
+				
+				aListCustomer.add(custom);
+			}
+
+			responseDto.setTotalPage(datas.getTotalPages());
+			responseDto.setNumberOfElements(datas.getNumberOfElements());
+			responseDto.setNumber(datas.getNumber());
+			responseDto.setTotalElements(datas.getTotalElements());
+			responseDto.setDatas(aListCustomer);
+
+			responseDto.setHasError(false);
+			responseDto.setErrorMessage("");
+			return responseDto;
+		}
+	
+		
+	public 	Response<Customer> desactiveCustomer(Long id){
+		
+		if(id==null) {
+			throw new BusinessBadRequest( ErrorMessage.ERROR_CUSTOMER_IDNULL);
+		}
+		
+		Customer findCust =customerRepository.findByIdCustomer(id);
+		
+		if(findCust==null) {
+			
+			throw new BusinessEntityNotFound(ErrorMessage.ERROR_CUSTOMER_NOTFOUND);
+		}
+		
+		
+		customerRepository.delete(findCust);
+		
+		
+		Response<Customer> response =new Response<Customer>();
+		
+		response.setHasError(false);
+		response.setErrorMessage(ErrorMessage.SUCCES_DELETE);
+		response.setData(null);
+		
+		return response ;
+
+		
+	}
+	
+	//DONE
 	public Response<Customer> CreateCustomer(Request<Customer> request){
 		
-		try {	
 			
 				Customer customer=request.getData();
 		
@@ -70,24 +139,18 @@ public class CustomerBusiness {
 				
 				return response;
 		
-		}
-		catch(Exception e) {
-			
-			
-			throw new  BusinessBadRequest( ErrorMessage.ERROR_SERVEUR_500);
+		
 	
-		}
 	
 	} 
 
 
 	
-	
-	
-public Response<?> ActiveSmileCheck(String licenceKey){
+//done
+	public Response<?> ActiveSmileCheck(String licenceKey){
 		
 		
-		try {
+	
 		    //do controle :
 		
 			Customer customer= new Customer();
@@ -111,13 +174,14 @@ public Response<?> ActiveSmileCheck(String licenceKey){
 			if(! findCustom.isLicenceActive() ) {
 				
 				//Activez la licence
-				findCustom.setLicenceActive(false);
+				findCustom.setLicenceActive(true);
+				findCustom.setUpdatedAt(LocalDateTime.now());
 				customerRepository.save(findCustom);
 				
 				Response<Customer> response =new Response<Customer>();
 				response.setHasError(false);
 				response.setErrorMessage(ErrorMessage.SUCCESS_CUSTOMER_LICENCE_ACTIVATION);
-				response.setData(customer);
+				response.setData(findCustom);
 				return response;
 			}else {
 				
@@ -126,13 +190,8 @@ public Response<?> ActiveSmileCheck(String licenceKey){
 			}
 			
 		
-		}
-		catch(Exception e) {
-			
-			
-			throw new  BusinessBadRequest(ErrorMessage.ERROR_SERVEUR_500);
+		
 
-		}
 		
 	   
 	} 

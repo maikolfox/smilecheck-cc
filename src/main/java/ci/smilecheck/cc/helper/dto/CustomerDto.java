@@ -1,7 +1,5 @@
 package ci.smilecheck.cc.helper.dto;
 
-import java.util.UUID;
-
 
 public class CustomerDto {
 	

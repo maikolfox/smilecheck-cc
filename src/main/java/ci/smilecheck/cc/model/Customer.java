@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -24,10 +25,10 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCustomer;
 	
-	@Column(unique=true, length=100)
+	@Type(type="org.hibernate.type.UUIDCharType")
 	private UUID licenceKey;
 	
-	@Column(unique=true, length=36)
+	@Column(unique=true)
 	private String customerName;
 	
 	private String customerAddresse;
@@ -38,7 +39,7 @@ public class Customer {
 	
 	@CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private Date createdAt=new Date();
 
     @LastModifiedDate
     @Column(name = "updated_at")

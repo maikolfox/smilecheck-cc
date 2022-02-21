@@ -42,6 +42,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	
+	@ExceptionHandler(BusinessBadRequest.class)
+	public ResponseEntity<Object> businessEntityBadRequest(BusinessBadRequest ex, WebRequest req){
+		ResponseBase responseBase=new ResponseBase();
+		responseBase.setTechnicalError(ex.getMessage());
+		responseBase.setHasError(true);
+		responseBase.setErrorMessage(ex.getMessage());
+		logger.error(ex.getMessage());
+		ex.printStackTrace();
+		return new ResponseEntity<Object>(responseBase,HttpStatus.BAD_REQUEST);
+
+	}
 	
 	
 	

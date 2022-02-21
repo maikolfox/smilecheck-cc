@@ -7,7 +7,7 @@ public enum ErrorMessage {
 	SUCCESS_UPDATE("Modification effectuée avec succès "),
 	SUCCESS_UTILISATEUR_REINIT("Utilisateur reinitialisé avec succès (mot de passe par defaut) "), 
 	SUCCESS_UTILISATEUR_SUPPRIMER("Suppression de l'utilisateur effectuée "), 
-	SUCCES_DELETE("Désactivation effectuée avec succès"),  
+	SUCCES_DELETE("Suppression effectuée avec succès"),  
 	SUCCESS_UTILISATEUR_ACTIVER("Utilisateur réactivé"), 
 
 
@@ -75,7 +75,9 @@ public enum ErrorMessage {
 	ERROR_CUSTOMER_NAME_ALREADY_ASSIGN("Nom d'utilisateur deja attribué"),
 	ERROR_CUSTOMER_BAD_LICENCE("Licence invalide"), 
 	SUCCESS_CUSTOMER_LICENCE_ACTIVATION("Activation de la licence reussie"), 
-	ERROR_CUSTOMER_ADRESS("Veuillez renseigener une  adresse valide");
+	ERROR_CUSTOMER_ADRESS("Veuillez renseigener une  adresse valide"),
+	ERROR_CUSTOMER_IDNULL("Id client incorrect"),
+	ERROR_CUSTOMER_NOTFOUND("Client inexistant");
 
 
 	
